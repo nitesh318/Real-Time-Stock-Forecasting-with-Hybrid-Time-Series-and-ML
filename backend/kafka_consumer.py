@@ -3,7 +3,7 @@ import logging
 import signal
 import sys
 
-from kafka import KafkaConsumer
+from kafka import KafkaConsumer, KafkaError
 
 # Kafka configuration
 KAFKA_BROKER = "localhost:9092"
@@ -17,8 +17,8 @@ logger = logging.getLogger(__name__)
 consumer = KafkaConsumer(
     TOPIC_NAME,
     bootstrap_servers=KAFKA_BROKER,
-    auto_offset_reset='earliest',  # Start from the earliest message
-    enable_auto_commit=True,
+    auto_offset_reset='earliest',
+    enable_auto_commit=False,  # Disable auto-commit
     group_id='stock-group',
     value_deserializer=lambda x: json.loads(x.decode('utf-8'))
 )
@@ -45,7 +45,12 @@ if __name__ == "__main__":
 
     try:
         for message in consumer:
-            process_message(message.value)
+            try:
+                process_message(message.value)
+                consumer.commit()  # Manually commit the offset after processing
+            except KafkaError as e:
+                logger.error(f"Error processing message: {e}")
+                continue  # Skip to the next message
     except Exception as e:
         logger.error(f"Error while consuming message: {e}")
     finally:
