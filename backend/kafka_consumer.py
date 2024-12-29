@@ -1,8 +1,9 @@
-from kafka import KafkaConsumer
 import json
 import logging
 import signal
 import sys
+
+from kafka import KafkaConsumer
 
 # Kafka configuration
 KAFKA_BROKER = "localhost:9092"

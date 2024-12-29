@@ -1,7 +1,8 @@
-from kafka import KafkaProducer
 import json
-import os
 import logging
+import os
+
+from kafka import KafkaProducer
 
 # Kafka configuration
 KAFKA_BROKER = os.getenv("KAFKA_BROKER", "localhost:9092")

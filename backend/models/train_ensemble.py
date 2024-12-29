@@ -1,9 +1,8 @@
-import numpy as np
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-import joblib
 import logging
-import os
+
+import joblib
+import numpy as np
+from sklearn.linear_model import LinearRegression
 
 # Initialize logging
 logging.basicConfig(level=logging.INFO)

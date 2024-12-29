@@ -1,10 +1,11 @@
-import pandas as pd
-from xgboost import XGBRegressor
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics import mean_squared_error
-import joblib
-import os
 import logging
+import os
+
+import joblib
+import pandas as pd
+from sklearn.metrics import mean_squared_error
+from sklearn.preprocessing import MinMaxScaler
+from xgboost import XGBRegressor
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

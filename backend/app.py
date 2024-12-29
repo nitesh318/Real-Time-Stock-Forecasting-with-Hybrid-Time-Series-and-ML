@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 # MongoDB configuration
-mongo_uri = os.getenv("MONGO_URI", "mongodb+srv://username:password@cluster.mongodb.net/")
+mongo_uri = os.getenv("MONGO_URI", "mongodb+srv://nitbhu95:bhushan123@cluster.mongodb.net/")
 client = MongoClient(mongo_uri)
 db = client.StockData
 
@@ -100,7 +100,18 @@ def predict_stock_data():
 @app.route('/healthcheck', methods=['GET'])
 def healthcheck():
     """Healthcheck endpoint."""
-    return jsonify({"status": "Running"}), 200
+    try:
+        # Test MongoDB connection
+        client.admin.command('ping')
+        mongo_status = "Connected"
+    except Exception as e:
+        logger.error(f"MongoDB connection error: {e}")
+        mongo_status = f"Error: {e}"
+
+    return jsonify({
+        "status": "Running",
+        "mongo_status": mongo_status
+    }), 200
 
 
 if __name__ == '__main__':
