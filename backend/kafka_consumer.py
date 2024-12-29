@@ -3,7 +3,7 @@ import logging
 import signal
 import sys
 
-from kafka import KafkaConsumer, KafkaError
+from kafka import KafkaConsumer
 
 # Kafka configuration
 KAFKA_BROKER = "localhost:9092"
@@ -48,7 +48,7 @@ if __name__ == "__main__":
             try:
                 process_message(message.value)
                 consumer.commit()  # Manually commit the offset after processing
-            except KafkaError as e:
+            except Exception as e:  # Catch generic exceptions
                 logger.error(f"Error processing message: {e}")
                 continue  # Skip to the next message
     except Exception as e:
